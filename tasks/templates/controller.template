@@ -1,0 +1,20 @@
+import { ControllerRouteRegistry, HTTP_METHODS } from '../util'
+
+export function controller${controllerName}(): ControllerRouteRegistry<null> {
+  return {
+    method: HTTP_METHODS.GET,
+    path: ${controllerRoutePath},
+    options: {
+      description: 'Description...',
+      response: {
+        schema: null,
+      },
+      tags: ['api'],
+      validate: {
+      },
+    },
+    handler: async (request, h) => {
+      return h.response(null)
+    },
+  }
+}
