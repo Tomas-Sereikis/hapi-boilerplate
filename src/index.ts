@@ -1,7 +1,9 @@
+import * as dotenv from 'dotenv'
 import { server, registry } from './server'
 import { registerControllers } from './controllers'
 import { logger } from './logger'
 
+dotenv.config()
 main().catch(onFail)
 
 async function main() {

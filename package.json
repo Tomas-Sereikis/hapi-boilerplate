@@ -13,15 +13,19 @@
     "test": "run-s test:*",
     "test:compile": "tsc --noEmit",
     "test:lint": "tslint -c tslint.json 'src/**/*.ts' 'tests/**/*.ts'",
-    "test:unit": "jest"
+    "test:unit": "jest",
+    "db:migrate": "sequelize db:migrate",
+    "db:seed": "sequelize db:seed"
   },
   "devDependencies": {
+    "@types/dotenv": "^6.1.0",
     "@types/hapi": "^18.0.0",
     "@types/inert": "^5.1.2",
     "@types/jest": "^23.3.13",
     "@types/joi": "^14.3.0",
     "@types/node": "^10.12.18",
     "@types/pino": "^5.8.4",
+    "@types/sequelize": "^4.27.34",
     "@types/vision": "^5.3.5",
     "@types/yup": "^0.26.6",
     "husky": "^1.3.1",
@@ -37,6 +41,7 @@
   "dependencies": {
     "boom": "^7.3.0",
     "colors": "^1.3.3",
+    "dotenv": "^6.2.0",
     "hapi": "^18.0.0",
     "hapi-pino": "^5.2.0",
     "hapi-swagger": "^9.3.0",
@@ -45,10 +50,15 @@
     "pino": "^5.11.1",
     "pino-pretty": "^2.5.0",
     "prettier": "^1.16.1",
+    "sequelize": "^4.42.0",
+    "sequelize-cli": "^5.4.0",
     "source-map-support": "^0.5.10",
     "vision": "^5.4.4"
   },
   "lint-staged": {
-    "*.{js,ts}": ["prettier --write", "git add"]
+    "*.{js,ts}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

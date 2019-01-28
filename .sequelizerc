@@ -1,0 +1,18 @@
+const mkdirp = require('mkdirp');
+const path = require('path');
+
+require('dotenv').config()
+
+const db = path.resolve('dist', 'db');
+const config = {
+  'config': path.resolve(db, 'config.js'),
+  'migrations-path': path.resolve(db, 'migrations'),
+  'models-path': path.resolve(db, 'models'),
+  'seeders-path': path.resolve(db, 'seeders'),
+};
+
+mkdirp.sync(config['migrations-path']);
+mkdirp.sync(config['models-path']);
+mkdirp.sync(config['seeders-path']);
+
+module.exports = config;
