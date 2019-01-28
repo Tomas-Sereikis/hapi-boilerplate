@@ -9,18 +9,22 @@
     "build": "tsc",
     "prettier": "prettier --write 'src/**/*.ts' 'tasks/**/*.js'",
     "watch": "tsc --watch",
-    "postinstall": "./tasks/postinstall.sh"
+    "postinstall": "./tasks/postinstall.sh",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/hapi": "^18.0.0",
     "@types/inert": "^5.1.2",
+    "@types/jest": "^23.3.13",
     "@types/joi": "^14.3.0",
     "@types/node": "^10.12.18",
     "@types/pino": "^5.8.4",
     "@types/vision": "^5.3.5",
     "@types/yup": "^0.26.6",
+    "jest": "^23.6.0",
     "joi-extract-type": "^0.1.5",
     "mkdirp": "^0.5.1",
+    "ts-jest": "^23.10.5",
     "typescript": "^3.2.4"
   },
   "dependencies": {
