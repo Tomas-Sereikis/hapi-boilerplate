@@ -12,6 +12,6 @@ async function main() {
 }
 
 async function onFail(err: Error) {
-  console.error(err)
+  logger.error(err)
   process.exit(1)
 }

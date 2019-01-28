@@ -34,14 +34,14 @@ async function registerLogger() {
   })
 }
 
-function status(status: number): string {
-  if (status >= 200 && status < 300) {
-    return colors.green(status.toString())
-  } else if (status >= 300 && status < 400) {
-    return colors.yellow(status.toString())
-  } else if (status >= 400) {
-    return colors.red(status.toString())
+function status(statusCode: number): string {
+  if (statusCode >= 200 && statusCode < 300) {
+    return colors.green(statusCode.toString())
+  } else if (statusCode >= 300 && statusCode < 400) {
+    return colors.yellow(statusCode.toString())
+  } else if (statusCode >= 400) {
+    return colors.red(statusCode.toString())
   } else {
-    return status.toString()
+    return statusCode.toString()
   }
 }

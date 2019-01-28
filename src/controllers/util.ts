@@ -1,14 +1,14 @@
 import * as hapi from 'hapi'
 
 export type ControllerRouteRegistry<T extends object> =
-  | ControllerRoute<T>
-  | Array<ControllerRoute<T>>
+  | IControllerRoute<T>
+  | Array<IControllerRoute<T>>
 
-export interface ControllerRoute<T extends object> extends hapi.ServerRoute {
-  handler(request: hapi.Request, h: ControllerToolkit<T>): Promise<hapi.ResponseObject>
+export interface IControllerRoute<T extends object> extends hapi.ServerRoute {
+  handler(request: hapi.Request, h: IControllerToolkit<T>): Promise<hapi.ResponseObject>
 }
 
-export interface ControllerToolkit<T extends object> extends hapi.ResponseToolkit {
+export interface IControllerToolkit<T extends object> extends hapi.ResponseToolkit {
   response(value?: T): hapi.ResponseObject
 }
 
