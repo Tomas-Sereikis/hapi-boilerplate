@@ -1,13 +1,8 @@
 import * as Sequelize from 'sequelize'
 import * as config from '../config'
+import { nodeEnv } from '../../env'
 
-type IEnv = keyof typeof config
-
-const { NODE_ENV } = process.env
-const envList = Object.keys(config)
-const env: IEnv = NODE_ENV && envList.indexOf(NODE_ENV) !== -1 ? (NODE_ENV as IEnv) : 'development'
-
-export const sequelize = new Sequelize(Object.assign(config[env], {}))
+export const sequelize = new Sequelize(config[nodeEnv])
 
 const db = {
   sequelize,

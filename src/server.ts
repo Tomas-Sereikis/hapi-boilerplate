@@ -3,17 +3,16 @@ import * as hapi from 'hapi'
 import * as inert from 'inert'
 import * as vision from 'vision'
 import { logger, errorLogger } from './logger'
+import { env, Env } from './env'
 
 const pkg = require('../package.json')
 const swaggerOptions = {
   info: { title: pkg.description },
 }
 
-const { HOST, PORT } = process.env
-
 export const server = new hapi.Server({
-  host: HOST || 'localhost',
-  port: PORT || 3000,
+  host: env(Env.HOST) || 'localhost',
+  port: env(Env.PORT) || '3000',
   routes: {
     state: { parse: false },
   },

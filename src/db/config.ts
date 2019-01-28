@@ -1,49 +1,31 @@
-import * as assert from 'assert'
+import * as sequelize from 'sequelize'
 import { logger } from '../logger'
+import { env, Env, NodeEnv } from 'src/env'
 
 const pkg = require('../../package.json')
 
-const { DB_NAME, DB_HOST, DB_PASSWORD, DB_USERNAME } = process.env
-
-assert(typeof DB_NAME === 'string', 'Database name is not defined!')
-assert(typeof DB_HOST === 'string', 'Database host is not defined!')
-assert(typeof DB_PASSWORD === 'string', 'Database password is not defined!')
-assert(typeof DB_USERNAME === 'string', 'Database username is not defined!')
-
-const migrationStorageTableName = `sequelize-meta__${pkg.name}`
-const seederStorageTableName = `sequelize-data__${pkg.name}`
+interface ISequelizeOptions extends sequelize.Options {
+  migrationStorageTableName?: string
+  seederStorageTableName?: string
+}
 
 const config = {
-  development: {
-    database: DB_NAME,
+  development: buildConfigFor(NodeEnv.DEVELOPMENT),
+  production: buildConfigFor(NodeEnv.PRODUCTION),
+  test: buildConfigFor(NodeEnv.TEST),
+}
+
+function buildConfigFor(environment: NodeEnv): ISequelizeOptions {
+  return {
+    database: env(Env.DB_NAME, true),
     dialect: 'mysql',
-    host: DB_HOST,
-    logging: (query: string) => logger.info(query),
-    migrationStorageTableName,
-    password: DB_PASSWORD,
-    seederStorageTableName,
-    username: DB_USERNAME,
-  },
-  production: {
-    database: DB_NAME,
-    dialect: 'mysql',
-    host: DB_HOST,
-    logging: false,
-    migrationStorageTableName,
-    password: DB_PASSWORD,
-    seederStorageTableName,
-    username: DB_USERNAME,
-  },
-  test: {
-    database: DB_NAME,
-    dialect: 'mysql',
-    host: DB_HOST,
-    logging: (query: string) => logger.info(query),
-    migrationStorageTableName,
-    password: DB_PASSWORD,
-    seederStorageTableName,
-    username: DB_USERNAME,
-  },
+    host: env(Env.DB_HOST, true),
+    logging: environment !== NodeEnv.PRODUCTION ? (query: string) => logger.info(query) : false,
+    migrationStorageTableName: `sequelize-meta__${pkg.name}`,
+    password: env(Env.DB_PASSWORD, true),
+    seederStorageTableName: `sequelize-data__${pkg.name}`,
+    username: env(Env.DB_USERNAME, true),
+  }
 }
 
 export = config
