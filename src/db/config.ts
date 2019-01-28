@@ -1,6 +1,6 @@
 import * as sequelize from 'sequelize'
 import { logger } from '../logger'
-import { env, Env, NodeEnv } from 'src/env'
+import { env, Env, NodeEnv } from '../env'
 
 const pkg = require('../../package.json')
 
