@@ -1,8 +1,8 @@
-import * as colors from 'colors'
+import * as boom from 'boom'
 import * as hapi from 'hapi'
 import * as inert from 'inert'
 import * as vision from 'vision'
-import { logger } from './logger'
+import { logger, errorLogger } from './logger'
 
 const pkg = require('../package.json')
 const swaggerOptions = {
@@ -14,6 +14,9 @@ const { HOST, PORT } = process.env
 export const server = new hapi.Server({
   host: HOST || 'localhost',
   port: PORT || 3000,
+  routes: {
+    state: { parse: false },
+  },
 })
 
 export async function registry() {
@@ -23,25 +26,28 @@ export async function registry() {
 }
 
 async function registerLogger() {
+  server.ext('onPreResponse', preResponse)
   server.events.on('response', request => {
-    const method = request.method.toUpperCase().padStart(6)
+    const method = request.method.toUpperCase()
     const response = request.response as hapi.ResponseObject
-    const timeDiff = request.info.responded - request.info.received
-    const time = (timeDiff / 1000).toFixed(3)
-    const statusCode = status(response.statusCode)
-    const remoteAddress = request.info.remoteAddress.padStart(15)
-    logger.info(`${remoteAddress} ${method} [${statusCode}] ${request.url.href} in ${time}s`)
+    const time = request.info.responded - request.info.received
+    const remoteAddress = request.info.remoteAddress
+    logger.info(
+      { remoteAddress },
+      `${method} [${response.statusCode}] ${request.url.href} in ${time}ms`,
+    )
   })
 }
 
-function status(statusCode: number): string {
-  if (statusCode >= 200 && statusCode < 300) {
-    return colors.green(statusCode.toString())
-  } else if (statusCode >= 300 && statusCode < 400) {
-    return colors.yellow(statusCode.toString())
-  } else if (statusCode >= 400) {
-    return colors.red(statusCode.toString())
-  } else {
-    return statusCode.toString()
+function preResponse(request: hapi.Request, h: hapi.ResponseToolkit) {
+  const response = request.response
+  if (boom.isBoom(response as boom)) {
+    const err = response as boom
+    const msg = err.output.payload.error.replace(/[ ]+/g, '_').toLowerCase()
+    const res = h.response({ error: msg })
+    res.code(err.output.statusCode)
+    errorLogger.error(err.stack ? err.stack : err.toString())
+    return res
   }
+  return h.continue
 }
