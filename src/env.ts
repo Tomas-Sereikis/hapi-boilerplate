@@ -6,6 +6,8 @@ export enum Env {
   DB_PASSWORD = 'DB_PASSWORD',
   DB_USERNAME = 'DB_USERNAME',
   NODE_ENV = 'NODE_ENV',
+  JWT_ALGORITHM = 'JWT_ALGORITHM',
+  JWT_SECRET = 'JWT_SECRET',
 }
 
 export enum NodeEnv {

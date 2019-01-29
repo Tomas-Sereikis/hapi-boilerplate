@@ -6,6 +6,7 @@ export function controllerHealthz(): ControllerRouteRegistry<IHealthzResponse> {
     method: HTTP_METHODS.GET,
     path: '/healthz',
     options: {
+      auth: false,
       description: 'Health check endpoint',
       notes: 'Use this endpoint to check status of the service, returns Ok if http is bind.',
       response: {

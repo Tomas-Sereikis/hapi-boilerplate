@@ -18,14 +18,11 @@ async function main(argv) {
     .replace(/\${controllerName}/g, ufirst(controllerName))
     .replace(/\${controllerRoutePath}/g, '/path')
 
+  const controllerAbstractDirname = path.dirname(controllerPath)
   const controllerBasename = path.basename(controllerPath)
-  const controllerDirname = path.resolve(
-    process.cwd(),
-    'src/controllers',
-    path.dirname(controllerPath),
-  )
+  const controllerDirname = path.resolve(process.cwd(), 'src/controllers', controllerAbstractDirname)
   const controllerFilePath = path.resolve(controllerDirname, `${controllerBasename}.ts`)
-  const schemeFilePath = path.resolve(process.cwd(), 'src/controllers/scheme.ts')
+  const schemeFilePath = path.resolve(controllerDirname, 'scheme.ts')
 
   mkdirp.sync(controllerDirname)
   await fs.writeFile(controllerFilePath, content)

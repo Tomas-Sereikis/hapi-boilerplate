@@ -3,9 +3,10 @@ import { ControllerRouteRegistry, HTTP_METHODS } from '../util'
 export function controller${controllerName}(): ControllerRouteRegistry<null> {
   return {
     method: HTTP_METHODS.GET,
-    path: ${controllerRoutePath},
+    path: '${controllerRoutePath}',
     options: {
       description: 'Description...',
+      notes: 'Notes...',
       response: {
         schema: null,
       },
