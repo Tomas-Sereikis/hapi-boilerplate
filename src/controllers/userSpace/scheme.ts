@@ -5,4 +5,4 @@ export const UserSpaceResponse = joi
   .object({
     username: joi.string().required(),
   })
-  .label('IUserSpaceResponse')
+  .label('UserSpaceResponse')

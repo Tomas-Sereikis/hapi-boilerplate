@@ -10,8 +10,8 @@
     "strict": true,
     "strictNullChecks": true,
     "moduleResolution": "node",
-    "types": ["node"],
+    "types": ["node", "jest"],
     "typeRoots": ["typings"]
   },
-  "exclude": ["tests"]
+  "exclude": ["tests", "tasks"]
 }

@@ -6,7 +6,7 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js', 'json', 'node'],
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig.jest.json',
+      tsConfig: 'tsconfig.json',
     },
   },
 }

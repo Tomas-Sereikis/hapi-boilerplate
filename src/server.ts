@@ -2,9 +2,15 @@ import * as boom from 'boom'
 import * as hapi from 'hapi'
 import * as inert from 'inert'
 import * as vision from 'vision'
+import { IControllerAuthCredentials } from './controllers/util'
 import { logger, errorLogger } from './logger'
 import { env, Env } from './env'
-import { parseJWTToken, ITokenUserData } from './services/jwtToken'
+import { parseJWTToken } from './services/jwtToken'
+
+// prettier-ignore
+type IValidateJWTContent =
+  | { isValid: false }
+  | { isValid: true; credentials: IControllerAuthCredentials }
 
 const pkg = require('../package.json')
 const swaggerOptions = {
@@ -50,7 +56,11 @@ async function registerJWTAuth() {
   server.auth.default('jwt')
 }
 
-async function validateJWTContent(decoded: any, request: hapi.Request, h: hapi.ResponseToolkit) {
+async function validateJWTContent(
+  decoded: any,
+  request: hapi.Request,
+  h: hapi.ResponseToolkit,
+): Promise<IValidateJWTContent> {
   const user = await parseJWTToken(decoded).catch(() => null)
   if (user) {
     return { isValid: true, credentials: { user } }
