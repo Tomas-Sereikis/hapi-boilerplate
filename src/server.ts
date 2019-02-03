@@ -2,6 +2,7 @@ import * as boom from 'boom'
 import * as hapi from 'hapi'
 import * as inert from 'inert'
 import * as vision from 'vision'
+import { APPLICATION_NAME } from './config.js'
 import { IControllerAuthCredentials } from './controllers/util'
 import { logger, errorLogger } from './logger'
 import { env, Env } from './env'
@@ -12,20 +13,17 @@ type IValidateJWTContent =
   | { isValid: false }
   | { isValid: true; credentials: IControllerAuthCredentials }
 
-const pkg = require('../package.json')
 const swaggerOptions = {
-  info: { title: pkg.description },
-  swaggerUI: true,
   documentationPage: true,
   documentationPath: '/docs',
+  info: { title: APPLICATION_NAME },
+  swaggerUI: true,
 }
 
 export const server = new hapi.Server({
   host: env(Env.HOST) || 'localhost',
   port: env(Env.PORT) || '3000',
-  routes: {
-    state: { parse: false },
-  },
+  routes: { state: { parse: false } },
 })
 
 export async function registry() {
