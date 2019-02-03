@@ -1,3 +1,7 @@
+import * as dotenv from 'dotenv'
+
+dotenv.config()
+
 export enum Env {
   HOST = 'HOST',
   PORT = 'PORT',
