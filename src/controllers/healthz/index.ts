@@ -16,7 +16,7 @@ export function controllerHealthz(): ControllerRouteRegistry<IHealthzResponse> {
       validate: {},
     },
     handler: async (request, h) => {
-      return h.response({ response: 'Ok' })
+      return h.response('Ok')
     },
   }
 }
