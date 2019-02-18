@@ -21,7 +21,7 @@ const swaggerOptions = {
 }
 
 export const server = new hapi.Server({
-  host: env(Env.HOST) || 'localhost',
+  host: env(Env.HOST) || undefined,
   port: env(Env.PORT) || '3000',
   routes: { state: { parse: false } },
 })
